@@ -33,8 +33,10 @@ If `!options.find_next`<sup>f_n</sup>, calls [`UnmarkAllTextMatches()`](https://
 * f_n: `!options.find_next` is true if a new string is searched for. If a new string is searched for, clears the stored text matches with `UnmarkAllTextMatches()`.
 
 Else, calls `SetMarkerActive(active_match_.Get(), false);`<sup>[`SetMarkerActive` source](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=793&gsn=SetMarkerActive)</sup>
-
-
-
-
+#### [`SetMarkerActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=793&gsn=SetMarkerActive)
+A function of `TextFinder`.
+If `!range || range->collapsed()`, returns `false`.
+Returns `OwnerFrame().GetFrame()->GetDocument()->Markers().SetTextMatchMarkersActive(EphemeralRange(range), active);`
+#### [`SetTextMatchMarkersActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.cpp?gsn=SetMarkerActive&l=751)
+A function of `DocumentMarkerController`. Takes two arguments: `const EphemeralRange& range` and `bool active`.
 
