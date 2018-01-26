@@ -1,6 +1,21 @@
 # The Path of CTRL F
 This document is for reference to how Chrome's CTRL + F function works at the WebKit/ Blink layer as is relevant to its native highlighting function. Should anyone find any errors in this document, please reach out to me ([Ward Bradt](github.com/wardbradt)) or, better yet, create a pull request correcting any inaccuracies.
 
+#### [`IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`](https://cs.chromium.org/chromium/src/content/common/frame_messages.h?l=1066)
+An implementation of [`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428) in [`frame_messages.h`](https://cs.chromium.org/chromium/src/content/common/frame_messages.h). 
+
+This line defines the message that is sent when the user wants to search for a word on the page (enters text into the CTRL F tab in Chrome).
+
+##### [`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428)
+A (constant) inter-process communication message defined in [`ipc_message_macros.h`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h).
+
+[`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428) is an IPC (Inter-process Communication) message. For information on how Chrome implements IPC, here is [Chromium's section of the design documents on IPC](https://www.chromium.org/developers/design-documents/inter-process-communication). For general information on IPC, here is the [Wikipedia page on IPC](https://en.wikipedia.org/wiki/Inter-process_communication).
+
+#### [`IPC_MESSAGE_HANDLER(FrameMsg_Find, OnFind)`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=1776)
+
+A (constant) implementation of [`IPC_MESSAGE_HANDLER`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=354) defined in [`render_frame_impl.cc`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=1776).
+
+
 ### [`RequestFind`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=2239)
 A function of `WebLocalFrameImpl`.
 
