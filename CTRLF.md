@@ -38,5 +38,5 @@ A function of `TextFinder`.
 If `!range || range->collapsed()`, returns `false`.
 Returns `OwnerFrame().GetFrame()->GetDocument()->Markers().SetTextMatchMarkersActive(EphemeralRange(range), active);`
 #### [`SetTextMatchMarkersActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.cpp?gsn=SetMarkerActive&l=751)
-A function of `DocumentMarkerController`. Takes two arguments: `const EphemeralRange& range` and `bool active`.
+A function of [`DocumentMarkerController`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.h?gsn=SetMarkerActive&l=51). Takes two arguments: `const EphemeralRange& range` and `bool active`.
 
