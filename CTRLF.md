@@ -15,6 +15,30 @@ A (constant) inter-process communication message defined in [`ipc_message_macros
 
 A (constant) implementation of [`IPC_MESSAGE_HANDLER`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=354) defined in [`render_frame_impl.cc`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=1776).
 
+##### [`IPC_MESSAGE_HANDLER`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=354)
+The definition of `IPC_MESSAGE_HANDLER` contains only the following two lines:
+```
+#define IPC_MESSAGE_HANDLER(msg_class, member_func) \
+  IPC_MESSAGE_FORWARD(msg_class, this, _IpcMessageHandlerClass::member_func)
+```
+
+### [`OnFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=6151)
+The declaration appears as such:
+```
+void RenderFrameImpl::OnFind(int request_id,
+                             const base::string16& search_text,
+                             const WebFindOptions& options)
+```
+Although I am not certain of the intricacies of [Chromium's IPC system](https://www.chromium.org/developers/design-documents/inter-process-communication), I can intuitively surmise that `OnFind`'s parameters `request_id`, `search_text`, and `options` are equal to the `int`, `base::string16`, and `blink::WebFindOptions` parameters from `IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`.
+
+The (summarized) flow of `OnFind` is as follows:
+
+Firstly:
+
+```blink::WebPlugin* plugin = GetWebPluginForFind();```
+
+##### [`GetWebPluginForFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=7112)
+
 
 ### [`RequestFind`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=2239)
 A function of `WebLocalFrameImpl`.
@@ -26,8 +50,6 @@ If `IsFocused()` ([?](https://cs.chromium.org/chromium/src/third_party/WebKit/So
 If 'result' is true and `options.find_next` is false, `Client()->ReportFindInPageMatchCount(identifier, 1 /* count */, false /* finalUpdate */);` is called.
 
 ### [`Find`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=2298)
-A function of `WebLocalFrameImpl`.
-
 `Find` first runs two statements: `if (!GetFrame()) return false;` and `DCHECK(!GetFrame()->GetPage());`. Neither of these are relevant to the highlighting functionality.
 
 It runs `GetFrame()->GetDocument()->UpdateStyleAndLayoutIgnorePendingStylesheets();` because an "up-to-date, clean tree is required for finding text in page, since it relies on TextIterator to look over the text." (According to the linked source code).
@@ -35,23 +57,18 @@ It runs `GetFrame()->GetDocument()->UpdateStyleAndLayoutIgnorePendingStylesheets
 It returns `EnsureTextFinder().Find(identifier, search_text, options, wrap_within_frame, active_now);`.
 
 #### [`EnsureTextFinder`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=2413&gsn=EnsureTextFinder)
-A function of `WebLocalFrameImpl`.
-
 Checks if this `WebLocalFrameImpl` object contains a `TextFinder` object with `if (!text_finder_)`. If not, creates a `TextFinder` object by calling `text_finder_ = TextFinder::Create(*this)`.
 
 Returns `text_finder_`.
 
 ### [`Find`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=114)
-A function of `TextFinder`.
-
 If `!options.find_next`<sup>f_n</sup>, calls [`UnmarkAllTextMatches()`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=803&gsn=UnmarkAllTextMatches).
 * f_n: `!options.find_next` is true if a new string is searched for. If a new string is searched for, clears the stored text matches with `UnmarkAllTextMatches()`.
 
 Else, calls `SetMarkerActive(active_match_.Get(), false);`<sup>[`SetMarkerActive` source](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=793&gsn=SetMarkerActive)</sup>
 #### [`SetMarkerActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp?l=793&gsn=SetMarkerActive)
-A function of `TextFinder`.
 If `!range || range->collapsed()`, returns `false`.
 Returns `OwnerFrame().GetFrame()->GetDocument()->Markers().SetTextMatchMarkersActive(EphemeralRange(range), active);`
 #### [`SetTextMatchMarkersActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.cpp?gsn=SetMarkerActive&l=751)
-A function of [`DocumentMarkerController`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.h?gsn=SetMarkerActive&l=51). Takes two arguments: `const EphemeralRange& range` and `bool active`.
+Takes two arguments: `const EphemeralRange& range` and `bool active`.
 
