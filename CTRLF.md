@@ -1,41 +1,42 @@
 # The Path of CTRL F
 This document is for reference to how Chrome's CTRL + F function works at the WebKit/ Blink layer as is relevant to its native highlighting function. Should anyone find any errors in this document, please reach out to me ([Ward Bradt](github.com/wardbradt)) or, better yet, create a pull request correcting any inaccuracies.
 
-#### [`IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`](https://cs.chromium.org/chromium/src/content/common/frame_messages.h?l=1066)
-An implementation of [`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428) in [`frame_messages.h`](https://cs.chromium.org/chromium/src/content/common/frame_messages.h). 
-
+### [`IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`](https://cs.chromium.org/chromium/src/content/common/frame_messages.h?l=1066)
 This line defines the message that is sent when the user wants to search for a word on the page (enters text into the CTRL F tab in Chrome).
 
-##### [`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428)
-A (constant) inter-process communication message defined in [`ipc_message_macros.h`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h).
-
-[`IPC_MESSAGE_ROUTED3`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=428) is an IPC (Inter-process Communication) message. For information on how Chrome implements IPC, here is [Chromium's section of the design documents on IPC](https://www.chromium.org/developers/design-documents/inter-process-communication). For general information on IPC, here is the [Wikipedia page on IPC](https://en.wikipedia.org/wiki/Inter-process_communication).
+This line declares a routed IPC message which takes three arguments: `int`, `base::string16`, and `blink::WebFindOptions` objects. These three arguments will later be referenced as `request_id`, `search_text`, and `options`, respectively. These arguments will be sent to the `FrameMsg_Find` function.
 
 #### [`IPC_MESSAGE_HANDLER(FrameMsg_Find, OnFind)`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=1776)
+This line handles the `IPC_MESSAGE_ROUTED3` message described previously. It then calls `OnFind` with the arguments included in the message.
 
-A (constant) implementation of [`IPC_MESSAGE_HANDLER`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=354) defined in [`render_frame_impl.cc`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=1776).
+For more information on Chromium's Inter-process Communication (IPC) system, read [the section of Chromium's design documents on IPC](https://www.chromium.org/developers/design-documents/inter-process-communication).
 
-##### [`IPC_MESSAGE_HANDLER`](https://cs.chromium.org/chromium/src/ipc/ipc_message_macros.h?l=354)
-The definition of `IPC_MESSAGE_HANDLER` contains only the following two lines:
-```
-#define IPC_MESSAGE_HANDLER(msg_class, member_func) \
-  IPC_MESSAGE_FORWARD(msg_class, this, _IpcMessageHandlerClass::member_func)
-```
-
-### [`OnFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=6151)
+### [`OnFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=6122)
 The declaration appears as such:
 ```
 void RenderFrameImpl::OnFind(int request_id,
                              const base::string16& search_text,
                              const WebFindOptions& options)
 ```
-Although I am not certain of the intricacies of [Chromium's IPC system](https://www.chromium.org/developers/design-documents/inter-process-communication), I can intuitively surmise that `OnFind`'s parameters `request_id`, `search_text`, and `options` are equal to the `int`, `base::string16`, and `blink::WebFindOptions` parameters from `IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`.
+As previously mentioned, `OnFind`'s parameters `request_id`, `search_text`, and `options` are equal to the `int`, `base::string16`, and `blink::WebFindOptions` parameters from `IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)`.
 
 The (summarized) flow of `OnFind` is as follows:
 
-Firstly:
+\- Calls ```blink::WebPlugin* plugin = GetWebPluginForFind();```.
 
-```blink::WebPlugin* plugin = GetWebPluginForFind();```
+\- If [`GetWebPluginForFind()`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=6127) ("if the plugin still exists in the document"): 
+  
+-- If this is a find next request, navigates to the the next result.
+
+-- Else if `!plugin->StartFind(WebString::FromUTF16(search_text), options.match_case, request_id)`, calls `SendFindReply(request_id, 0 /* match_count */, 0 /* ordinal */, gfx::Rect(), true /* final_status_update */)`, which "send\[s\] 'no results.'"
+
+-- Returns
+
+\- Else:
+
+-- Calls `frame_->RequestFind(request_id, WebString::FromUTF16(search_text), options)`.
+  
+
 
 ##### [`GetWebPluginForFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=7112)
 
