@@ -35,17 +35,23 @@ The (summarized) flow of `OnFind` is as follows:
 \- Else:
 
 -- Calls `frame_->RequestFind(request_id, WebString::FromUTF16(search_text), options)`.
-  
 
 
-##### [`GetWebPluginForFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=7112)
+#### [`GetWebPluginForFind`](https://cs.chromium.org/chromium/src/content/renderer/render_frame_impl.cc?l=7080)
 
+The flow of `GetWebPluginForFind` is as follows:
+
+\- If `frame_->GetDocument().IsPluginDocument()`, returns `frame_->GetDocument().To<WebPluginDocument>().Plugin()`.
+
+\- If `ENABLE_PLUGIN` is set to true in one of the header files included in `render_frame_impl.cc` and `plugin_find_handler_`, returns `plugin_find_handler_->container()->Plugin()`.
+
+\- Else, returns `nullptr`.
 
 ### [`RequestFind`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=2239)
 A function of `WebLocalFrameImpl`.
 
 If `IsFocused()` ([?](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?l=575&gsn=IsFocused)) or `options.find_next`<sup>f_n</sup>, the variable `result` is set to `Find(identifier, search_text, options, false /* wrapWithinFrame */, &active_now)`. This `Find` function returns whether the WebFrame contains `search_text`<sup>s_t</sup>. Further processes occur in this method, however our attention should now be directed to the `Find` function.
-* f_n: if this is a "find next request" - a request to search for the next occurence of 'search_text' in the web page
+* f_n: if this is a "find next request" - a request to navigate to the next occurence of `search_text` in the web page when it is known that there is at least one occurence of `search_text` in the web page.
 * s_t: if the current web page contains the text enterered into the browser's CTRL + F tab
 
 If 'result' is true and `options.find_next` is false, `Client()->ReportFindInPageMatchCount(identifier, 1 /* count */, false /* finalUpdate */);` is called.
@@ -73,3 +79,5 @@ Returns `OwnerFrame().GetFrame()->GetDocument()->Markers().SetTextMatchMarkersAc
 #### [`SetTextMatchMarkersActive`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/markers/DocumentMarkerController.cpp?gsn=SetMarkerActive&l=751)
 Takes two arguments: `const EphemeralRange& range` and `bool active`.
 
+### [`OnFindReply`](https://cs.chromium.org/chromium/src/content/browser/find_request_manager.cc?type=cs&q=OnFindReply&l=287)
+The function that is called when the renderer wants to tell the browser it has found instances of `search_text` in the web page.
