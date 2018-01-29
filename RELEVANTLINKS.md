@@ -21,3 +21,5 @@ class ContextMenusCreateFunction : public UIThreadExtensionFunction {
 The next three classes are nearly identical, with update/ Update/ UPDATE, remove/ Remove/ REMOVE, and removeAll/ RemoveAll/ REMOVEALL replacing create/ Create/ CREATE, respectively.
 
 The classes defined in the header files of many other chrome.* APIs are similar, extending `public UIThreadExtensionFunction`, and replacing abcyXyz/ AbcXyz/ ABCXYZ with create/ Create/ CREATE.
+
+## [`HTMLElement.cpp`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/html/HTMLElement.cpp?sq=package:chromium)
