@@ -23,5 +23,6 @@ The next three classes are nearly identical, with update/ Update/ UPDATE, remove
 The classes defined in the header files of many other chrome.* APIs are similar, extending `public UIThreadExtensionFunction`, and replacing abcyXyz/ AbcXyz/ ABCXYZ with create/ Create/ CREATE.
 
 ## [`HTMLElement.cpp`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/html/HTMLElement.cpp?sq=package:chromium)
-## [Find Bar Design Documents](https://www.chromium.org/developers/design-documents/find-bar)
 ## [`find_notification_details.h`](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/find_notification_details.h?q=FindNot&sq=package:chromium&l=10)
+## [UI Folder for Find Bar](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/?q=FindNot&sq=package:chromium)
+## [Find Bar Design Documents](https://www.chromium.org/developers/design-documents/find-bar)
