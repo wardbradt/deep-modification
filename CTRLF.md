@@ -81,3 +81,14 @@ Takes two arguments: `const EphemeralRange& range` and `bool active`.
 
 ### [`OnFindReply`](https://cs.chromium.org/chromium/src/content/browser/find_request_manager.cc?type=cs&q=OnFindReply&l=287)
 The function that is called when the renderer wants to tell the browser it has found instances of `search_text` in the web page.
+
+## Notes
+Here I will note functions that I believe are relevant to this process but which I have not yet encountered in my investigation of the process.
+
+### [`CreateMarkupInRect`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/frame/WebLocalFrameImpl.cpp?sq=package:chromium&l=2553)
+This is a function in `WebLocalFrameImpl.cc`. The definition appears as such:
+```
+static String CreateMarkupInRect(LocalFrame* frame,
+                                 const IntPoint& start_point,
+                                 const IntPoint& end_point)
+```
