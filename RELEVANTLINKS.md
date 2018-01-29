@@ -24,5 +24,5 @@ The classes defined in the header files of many other chrome.* APIs are similar,
 
 ## [`HTMLElement.cpp`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/html/HTMLElement.cpp?sq=package:chromium)
 ## [`find_notification_details.h`](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/find_notification_details.h?q=FindNot&sq=package:chromium&l=10)
-## [UI Folder for Find Bar](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/?q=FindNot&sq=package:chromium)
+## [UI Folder for Find Bar](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/)
 ## [Find Bar Design Documents](https://www.chromium.org/developers/design-documents/find-bar)
