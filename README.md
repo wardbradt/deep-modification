@@ -1,6 +1,8 @@
 # deep-modification
 A library which allows Chrome web developers to modify webpages without modifying the Document Object Model (DOM). Deep Modification seeks to understand the functionality of Chrome's native highlight function as used in its CTRL-F function. Using this understanding, Deep Modification hopes to enable developers to not just highlight text on the web page, but otherwise alter the web page without modifying the DOM.
 
+Currently, most of the work is focused on researching Chromium's "find-in-page" feature. This research is being logged in [deep-modification/CTRLF.md](https://github.com/wardbradt/deep-modification/blob/master/CTRLF.md).
+
 ## Useful Links
 These links are an archive of links that you can peruse should you wish to become better acquainted with the project.
 
@@ -10,3 +12,4 @@ A list of source code files which are useful in understanding Chrome's native CT
 
 * [chromium/src/third_party/WebKit/Source/core/editing/finder/](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/)
 The directory for Chromium's text finding (CTRL + F functionality). Of particular importance are [FindInPageCoordinates.cpp](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/FindInPageCoordinates.cpp) and [TextFinder.cpp](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/finder/TextFinder.cpp).
+
