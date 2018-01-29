@@ -92,3 +92,5 @@ static String CreateMarkupInRect(LocalFrame* frame,
                                  const IntPoint& start_point,
                                  const IntPoint& end_point)
 ```
+
+### [`FrameSelection.cpp`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/FrameSelection.cpp)
