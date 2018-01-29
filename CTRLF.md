@@ -94,4 +94,4 @@ static String CreateMarkupInRect(LocalFrame* frame,
 ```
 
 ### [`FrameSelection.cpp`](https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/editing/FrameSelection.cpp)
-[Find Bar Design Documents](https://www.chromium.org/developers/design-documents/find-bar)
+### [Find Bar Design Documents](https://www.chromium.org/developers/design-documents/find-bar)
