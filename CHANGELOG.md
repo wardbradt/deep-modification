@@ -3,13 +3,13 @@ All notable changes to this project will be documented in this file. As this pro
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [0.0.5] - 2018-01-29
+## [0.0.4] - 2018-01-29
 ### Added
 - Notes to section to CTRLF.md
 - A two-sentence paragraph to README.md
 - RELEVANTLINKS.md
 
-## [0.0.] - 2018-01-28
+## [0.0.3] - 2018-01-28
 ### Added
 - Parameter description to "IPC_MESSAGE_ROUTED3(FrameMsg_Find..."
 - Description for `IPC_MESSAGE_HANDLER(FrameMsg_Find, OnFind)`
@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Statements about which file functions are in
 - `IPC_MESSAGE_HANDLER`
 
-## [0.0.] - 2018-01-27
+## [0.0.2] - 2018-01-27
 ### Added
 - `IPC_MESSAGE_HANDLER`, `OnFind`
 
