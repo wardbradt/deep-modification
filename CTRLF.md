@@ -97,6 +97,16 @@ A function declared in `web_delegate.h` and called from [`NotifyFindReply`](http
 
 `FindReply` is overridden in seven places, four of which https://cs.chromium.org displays, and two of which are not in test files. These two are in [chrome/browser/ui/browser.cc](https://cs.chromium.org/chromium/src/chrome/browser/ui/browser.cc?l=1808) and [extensions/browser/guest_view/web_view/web_view_guest.cc](https://cs.chromium.org/chromium/src/extensions/browser/guest_view/web_view/web_view_guest.cc?l=564).
 
+#### [Browser.cc's FindReply](https://cs.chromium.org/chromium/src/chrome/browser/ui/browser.cc?l=1808)
+Retrieves `web_contents`'s `FindTabHelper` as `find_tab_helper` and, after checking `find_tab_helper` is not null, calls 
+```
+find_tab_helper->HandleFindReply(request_id,
+                                   number_of_matches,
+                                   selection_rect,
+                                   active_match_ordinal,
+                                   final_update)
+```
+
 ----
 ##### Note for Later: 
 Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
