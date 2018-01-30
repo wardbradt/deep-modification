@@ -94,7 +94,8 @@ A function declared in `web_delegate.h` and called from [`NotifyFindReply`](http
 `FindReply` is overridden in seven places, four of which https://cs.chromium.org displays, and three of which are not in test files. These three are in [chrome/browser/ui/browser.cc](https://cs.chromium.org/chromium/src/chrome/browser/ui/browser.cc?l=1808), [content/browser/download/mhtml_generation_browsertest.cc](https://cs.chromium.org/chromium/src/content/browser/download/mhtml_generation_browsertest.cc?l=70), and [extensions/browser/guest_view/web_view/web_view_guest.cc](https://cs.chromium.org/chromium/src/extensions/browser/guest_view/web_view/web_view_guest.cc?l=564).
 
 ----
-##### Note for Later: Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
+##### Note for Later: 
+Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
 
 ## Notes
 Here I will note functions that I believe are relevant to this process but which I have not yet encountered in my investigation of the process.
