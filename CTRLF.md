@@ -107,6 +107,21 @@ find_tab_helper->HandleFindReply(request_id,
                                    final_update)
 ```
 
+### [HandleFindReply](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/find_tab_helper.cc?l=157)
+
+\- Ensures that `number_of_matches`, `selection_rect`, and `active_match_ordinal`, have valid values.
+\- Notifies "the UI, automation and any other observers that a find result was found" using the following code:
+```
+    last_search_result_ = FindNotificationDetails(
+        request_id, number_of_matches, selection, active_match_ordinal,
+        final_update);
+    content::NotificationService::current()->Notify(
+        chrome::NOTIFICATION_FIND_RESULT_AVAILABLE,
+        content::Source<WebContents>(web_contents()),
+        content::Details<FindNotificationDetails>(&last_search_result_));
+```
+Note that the automation provider, according to the Design Documents, is "used for UI tests for Find In Page."
+
 ----
 ##### Note for Later: 
 Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
