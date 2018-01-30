@@ -1,6 +1,10 @@
 # The Path of CTRL F
 This document is for reference to how Chrome's CTRL + F function works at the WebKit/ Blink layer as is relevant to its native highlighting function. Should anyone find any errors in this document, please reach out to me ([Ward Bradt](github.com/wardbradt)) or, better yet, create a pull request correcting any inaccuracies.
 
+### [StartFinding](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/find_tab_helper.h?gsn=FindTabHelper&l=28)
+Called when a user presses CTRL + F (or the user-designated hotkey assigned to the find function) 
+
+
 ### [IPC_MESSAGE_ROUTED3(FrameMsg_Find, int /* request_id */, base::string16 /* search_text */, blink::WebFindOptions)](https://cs.chromium.org/chromium/src/content/common/frame_messages.h?l=1066)
 This line defines the message that is sent when the user wants to search for a word on the page (enters text into the CTRL F tab in Chrome).
 
