@@ -90,6 +90,7 @@ A function declared in `web_delegate.h` and called from [`NotifyFindReply`](http
 
 `FindReply` is sent the result of a string search in the page. (I believe it is called when a new match is found or the search is over) The last parameter, `final_update` indicates if this is the call indicating search is over/ no more results will follow.
 
+`FindReply` is overridden in seven places, four of which https://cs.chromium.org displays, and three of which are not in test files. These three are in [chrome/browser/ui/browser.cc](https://cs.chromium.org/chromium/src/chrome/browser/ui/browser.cc?l=1808), [content/browser/download/mhtml_generation_browsertest.cc](https://cs.chromium.org/chromium/src/content/browser/download/mhtml_generation_browsertest.cc?l=70), and [extensions/browser/guest_view/web_view/web_view_guest.cc](https://cs.chromium.org/chromium/src/extensions/browser/guest_view/web_view/web_view_guest.cc?l=564).
 
 Note for Later: Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
 
