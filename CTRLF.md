@@ -82,6 +82,17 @@ Takes two arguments: `const EphemeralRange& range` and `bool active`.
 ### [`OnFindReply`](https://cs.chromium.org/chromium/src/content/browser/find_request_manager.cc?type=cs&q=OnFindReply&l=287)
 The function that is called when the renderer wants to tell the browser it has found instances of `search_text` in the web page.
 
+##### Note:
+Some processes' descriptions are skipped between `OnFindReply` and `FindReply`.
+
+### [`FindReply`](https://cs.chromium.org/chromium/src/content/public/browser/web_contents_delegate.h?l=405)
+A function declared in `web_delegate.h` and called from [`NotifyFindReply`](https://cs.chromium.org/chromium/src/content/browser/web_contents/web_contents_impl.cc?l=5829) in `web_contents_impl.cc` and [`FindReply`](https://cs.chromium.org/chromium/src/extensions/browser/guest_view/web_view/web_view_guest.cc?l=564) in `web_view_guest.cc`.
+
+`FindReply` is sent the result of a string search in the page. (I believe it is called when a new match is found or the search is over) The last parameter, `final_update` indicates if this is the call indicating search is over/ no more results will follow.
+
+
+Note for Later: Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
+
 ## Notes
 Here I will note functions that I believe are relevant to this process but which I have not yet encountered in my investigation of the process.
 
