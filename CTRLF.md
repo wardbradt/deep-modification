@@ -122,6 +122,21 @@ find_tab_helper->HandleFindReply(request_id,
 ```
 Note that the automation provider, according to the Design Documents, is "used for UI tests for Find In Page."
 
+### [FindBarController::Observe](https://cs.chromium.org/chromium/src/chrome/browser/ui/find_bar/find_bar_controller.cc?sq=package:chromium&l=140)
+```
+FindBarController::Observe(int type,
+                                const content::NotificationSource& source,
+                                const content::NotificationDetails& details)
+```
+-\ Sets `web_contents`'s `FindTabHelper` to `find_tab_helper`
+-\ `if (type == chrome::NOTIFICATION_FIND_RESULT_AVAILABLE)`
+-- Checks that the notification was sent from the `WebContents` "we are actively tracking"
+-- Calls `UpdateFindBarForCurrentResult()`
+-- Checks `find_tab_helper->find_result().final_update() && find_tab_helper->find_result().number_of_matches() == 0`
+-- continues at line 154
+
+### [FindInPageNotificationObserver::Observe](https://cs.chromium.org/chromium/src/chrome/test/base/find_in_page_observer.cc?sq=package:chromium&l=37)
+
 ### [SchedulePaint](https://cs.chromium.org/chromium/src/ui/compositor/layer.cc?gsn=UpdateUIForFindResult&l=863)
 
 
