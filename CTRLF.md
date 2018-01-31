@@ -122,6 +122,9 @@ find_tab_helper->HandleFindReply(request_id,
 ```
 Note that the automation provider, according to the Design Documents, is "used for UI tests for Find In Page."
 
+### [SchedulePaint](https://cs.chromium.org/chromium/src/ui/compositor/layer.cc?gsn=UpdateUIForFindResult&l=863)
+
+
 ----
 ##### Note for Later: 
 Because installing extensions in Chrome's guest mode is difficult and uncommon, only the call in `web_contents_impl.cc` should be researched. 
